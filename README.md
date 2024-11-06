@@ -16,7 +16,7 @@ version: '3.8': Especifica la versión de la sintaxis de Docker Compose que se e
 2. services
 Define los servicios que se ejecutarán en contenedores.
 
-a. db
+    a. db
 image: mysql:5.7: Utiliza la imagen de MySQL versión 5.7.
 environment: Variables de entorno para configurar la base de datos
 MYSQL_ROOT_PASSWORD: rootpassword: Contraseña del usuario root de MySQL.
@@ -28,7 +28,7 @@ ports: Mapeo de puertos
 volumes: Persistencia de datos
 db_data:/var/lib/mysql: Monta un volumen llamado db_data en el directorio donde MySQL almacena sus datos, asegurando que los datos persistan incluso si el contenedor se reinicia.
 
-b. app
+    b. app
 build: Instrucciones para construir la imagen del contenedor:
 context: .: Especifica el contexto de construcción, que es el directorio actual donde se encuentra el Dockerfile.
 environment: Variables de entorno para la aplicación:
