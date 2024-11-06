@@ -1,14 +1,14 @@
 # bot-telegram-poli
 
-# Integrantes Subgrupo 2 Integración Continúa Grupo B02 
-    - **BANOS OSORIO RAHOMIR DE JESUS**
-    - **BETANCUR TORRES JAIDER**
-    - **GARCÍA GARCÍA JHON**
-    - **HERNÁNDEZ TRIANA YULIAN ANTONIO**
-    - **HERRERA RODRIGUEZ WEIMAR JAIR**
-    - **POLANIA LOZANO ANDRES CAMILO**
+## Integrantes Subgrupo 2 Integración Continúa Grupo B02 
+    - BANOS OSORIO RAHOMIR DE JESUS
+    - BETANCUR TORRES JAIDER
+    - GARCÍA GARCÍA JHON
+    - HERNÁNDEZ TRIANA YULIAN ANTONIO
+    - HERRERA RODRIGUEZ WEIMAR JAIR
+    - POLANIA LOZANO ANDRES CAMILO
 
-# Variables de docker-compose.yml
+## Variables de docker-compose.yml
 
 1. version
 version: '3.8': Especifica la versión de la sintaxis de Docker Compose que se está utilizando.
@@ -49,7 +49,7 @@ El archivo docker-compose.yml presenta un comportamiento en el que se reinicia c
 Esto significa que el sistema no comienza a funcionar completamente hasta que la base de datos está lista.
 
 
-# Variables y configuraciones en main.py
+## Variables y configuraciones en main.py
 
 1. Importaciones
 import telebot: Importa la biblioteca para interactuar con la API de Telegram.
@@ -107,7 +107,7 @@ cursor.execute(...): Inserta los datos del colaborador en la tabla bot-telegram 
 bot.set_my_commands([...]): Configura los comandos que el bot puede reconocer.
 Este archivo configura un bot de Telegram que permite registrar colaboradores y almacenar su información en una base de datos MySQL.
 
-# Instrucciones:
+## Instrucciones:
 
 1. Requisitos Previos
 Docker: Asegúrate de tener Docker y Docker Compose instalados en tu sistema. Puedes seguir las instrucciones de instalación en Docker y Docker Compose.
