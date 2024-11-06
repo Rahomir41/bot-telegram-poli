@@ -45,8 +45,8 @@ restart: always: Configura el contenedor para que se reinicie automáticamente s
 3. volumes
 db_data:: Define un volumen llamado db_data que se utiliza para la persistencia de datos de MySQL.
 
-# El archivo docker-compose.yml presenta un comportamiento en el que se reinicia continuamente hasta que el codigo se sube correctamente y la base de datos se despliega. 
-# Esto significa que el sistema no comienza a funcionar completamente hasta que la base de datos está lista.
+El archivo docker-compose.yml presenta un comportamiento en el que se reinicia continuamente hasta que el codigo se sube correctamente y la base de datos se despliega. 
+Esto significa que el sistema no comienza a funcionar completamente hasta que la base de datos está lista.
 
 
 # Variables y configuraciones en main.py
