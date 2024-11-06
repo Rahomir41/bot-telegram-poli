@@ -37,7 +37,7 @@ db = mysql.connector.connect(
 db.database = db_name
 cursor = db.cursor()
 cursor.execute("""
-        CREATE TABLE `bot-telegram` (
+        CREATE TABLE `bot_telegram` (
         `id` int NOT NULL AUTO_INCREMENT,
         `user_id` varchar(100)  NULL,
         `nombre_usuario` varchar(100)  NULL,
@@ -64,7 +64,7 @@ def inicio_registro_colaboardor(message):
 @bot.message_handler(func=lambda message:datos_colaborador.get(message.chat.id, {}).get('state') == 'nombre_colaborador')
 def registro_nombre_colaboardor(message):
     nombre = str(message.text)
-    datos_colaborador[message.chat.id]['nombre'] = str(message.text)
+    datos_colaborador[message.chat.id]['nombre_colaborador'] = str(message.text)
 
     print(datos_colaborador)
 
@@ -160,3 +160,4 @@ if __name__ == "__main__":
         telebot.types.BotCommand("/cuscacolaborador","Busca Colaboradores"),
     ])
     bot.infinity_polling()
+
