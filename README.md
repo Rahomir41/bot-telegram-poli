@@ -114,7 +114,7 @@ Docker: Asegúrate de tener Docker y Docker Compose instalados en tu sistema. Pu
 Git: Necesitarás Git para clonar el repositorio.
 
 2. Clonar el Repositorio
-Desde la terminal (bash) y ejecuta el siguiente comando:
+Desde la terminal ejecute el siguiente comando:
 git clone https://github.com/YulianHernandez/bot-telegram-poli.git
 cd bot-telegram-poli
 
