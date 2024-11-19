@@ -173,3 +173,90 @@ Asegurese que el token del bot de Telegram sea válido y que el bot esté habili
 Revise la documentación de cada biblioteca utilizada en main.py para entender mejor su funcionamiento.
 Puede modificar el código según sus necesidades y volver a construir los contenedores si realizas cambios.
 Siguiendo estos pasos, deberia poder desarrollar y ejecutar el programa en contenedores de Docker sin problemas.
+
+## Integración Continua con Jenkins
+
+Este proyecto utiliza Jenkins para la integración continua. A continuación se presentan los pasos para configurar Jenkins y un pipeline para este proyecto.
+
+### Requisitos Previos
+
+- **Jenkins**: Asegúrate de tener Jenkins instalado y en funcionamiento. Puedes seguir las instrucciones de instalación en [Jenkins Documentation](https://www.jenkins.io/doc/).
+- **Plugins**: Instala los siguientes plugins en Jenkins:
+  - GitHub Integration Plugin
+  - Pipeline
+  - Git
+
+### Configuración de Jenkins
+
+1. **Crear un Nuevo Pipeline**:
+   - En la página principal de Jenkins, haz clic en **"Nuevo elemento"**.
+   - Escribe un nombre para tu proyecto (por ejemplo, `bot-telegram-poli-pipeline`) y selecciona **"Pipeline"**.
+   - Haz clic en **"Aceptar"**.
+
+2. **Configurar el Pipeline**:
+   - En la configuración del proyecto, busca la sección **"Pipeline"**.
+   - Cambia el **"Definition"** a **"Pipeline script"**.
+   - Agrega el siguiente código en el campo de script:
+
+     ```groovy
+     pipeline {
+         agent any
+         stages {
+             stage('Checkout') {
+                 steps {
+                     // Clonar el repositorio
+                     git 'https://github.com/YulianHernandez/bot-telegram-poli.git'
+                 }
+             }
+             stage('Build') {
+                 steps {
+                     echo 'Construyendo...'
+                     // Aquí puedes agregar comandos para construir tu bot si es necesario
+                 }
+             }
+             stage('Test') {
+                 steps {
+                     echo 'Ejecutando pruebas...'
+                     // Aquí puedes agregar comandos para ejecutar pruebas si tienes
+                 }
+             }
+             stage('Deploy') {
+                 steps {
+                     echo 'Desplegando...'
+                     // Aquí puedes agregar el comando para desplegar tu bot
+                 }
+             }
+         }
+     }
+     ```
+
+3. **Configurar el Desencadenador de GitHub (Opcional)**:
+   - Ve a **"Configuración"** en tu proyecto de Jenkins.
+   - En **"Construcción desencadenada por"**, selecciona **"GitHub hook trigger for GITScm polling"**.
+
+4. **Guardar y Ejecutar el Pipeline**:
+   - Haz clic en **"Guardar"**.
+   - En la página del proyecto, haz clic en **"Construir ahora"** para ejecutar el pipeline.
+
+### Integración con GitHub
+
+Para que Jenkins se active automáticamente con cambios en el repositorio, debes configurar un webhook en GitHub:
+
+1. Ve al repositorio en GitHub.
+2. Haz clic en **"Configuración"** > **"Webhooks"** > **"Agregar webhook"**.
+3. En **"Payload URL"**, ingresa `http://<tu-ip>:8080/github-webhook/`.
+4. Selecciona **"application/json"** como tipo de contenido.
+5. En **"Which events would you like to trigger this webhook?"**, selecciona **"Just the push event."**
+6. Haz clic en **"Agregar webhook"**.
+
+### Verificación
+
+- Después de configurar Jenkins y el webhook, cada vez que realices un push al repositorio, Jenkins ejecutará el pipeline automáticamente.
+- Puedes verificar los registros de construcción en Jenkins para asegurarte de que todo funcione correctamente.
+
+### Notas Adicionales
+
+- Asegúrate de que el token del bot de Telegram sea válido y que el bot esté habilitado.
+- Revisa la documentación de cada biblioteca utilizada en `main.py` para entender mejor su funcionamiento.
+- Puedes modificar el código según tus necesidades y volver a construir los contenedores si realizas cambios.
+
