@@ -222,35 +222,77 @@ Este proyecto utiliza Jenkins para la integración continua. A continuación se 
    - Cambia el **"Definition"** a **"Pipeline script"**.
    - Agrega el siguiente código en el campo de script:
 
-     pipeline {
-         agent any
-         stages {
-             stage('Checkout') {
-                 steps {
-                     // Clonar el repositorio
-                     git 'https://github.com/YulianHernandez/bot-telegram-poli.git'
-                 }
-             }
-             stage('Build') {
-                 steps {
-                     echo 'Construyendo...'
-                     // Aquí puedes agregar comandos para construir tu bot si es necesario
-                 }
-             }
-             stage('Test') {
-                 steps {
-                     echo 'Ejecutando pruebas...'
-                     // Aquí puedes agregar comandos para ejecutar pruebas si tienes
-                 }
-             }
-             stage('Deploy') {
-                 steps {
-                     echo 'Desplegando...'
-                     // Aquí puedes agregar el comando para desplegar tu bot
-                 }
-             }
-         }
-     }
+  pipeline {
+    agent any
+
+    environment {
+        ENV_FILE = '.env'
+    }
+
+    stages {
+        stage('Clonar Repositorio') {
+            steps {
+                script {
+                    git 'https://github.com/YulianHernandez/bot-telegram-poli.git'
+                }
+            }
+        }
+
+        stage('Instalar Dependencias') {
+            steps {
+                script {
+                    sh 'pip install -r app/requirements.txt'
+                }
+            }
+        }
+
+        stage('Configuración de la Base de Datos') {
+            steps {
+                script {
+                    sh '''
+                    mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+                    '''
+                }
+            }
+        }
+
+        stage('Ejecutar Bot') {
+            steps {
+                script {
+                    sh 'python app/bot.py'
+                }
+            }
+        }
+
+        stage('Pruebas') {
+            steps {
+                script {
+                    echo 'Ejecutando pruebas...'
+                }
+            }
+        }
+
+        stage('Desplegar a Producción') {
+            steps {
+                script {
+                    echo 'Desplegando bot a producción...'
+                    sh 'docker build -t telegram-bot .'
+                    sh 'docker run -d -p 5000:5000 telegram-bot'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'El pipeline se ejecutó correctamente.'
+        }
+        failure {
+            echo 'Hubo un error en el pipeline.'
+        }
+    }
+}
+  
 
 3. **Configurar el Desencadenador de GitHub (Opcional)**:
    - Ve a **"Configuración"** en tu proyecto de Jenkins.
