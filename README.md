@@ -107,72 +107,102 @@ cursor.execute(...): Inserta los datos del colaborador en la tabla bot-telegram 
 bot.set_my_commands([...]): Configura los comandos que el bot puede reconocer.
 Este archivo configura un bot de Telegram que permite registrar colaboradores y almacenar su información en una base de datos MySQL.
 
-## Instrucciones:
+## Instrucciones: Instrucciones para Ejecutar el Bot de Telegram desde la Máquina Local
 
-1. Requisitos Previos
-Docker: Asegúrate de tener Docker y Docker Compose instalados en tu sistema. Puedes seguir las instrucciones de instalación en Docker y Docker Compose.
-Git: Necesitarás Git para clonar el repositorio.
+Requisitos Previos
 
-2. Clonar el Repositorio
-Desde la terminal ejecute el siguiente comando:
+Docker y Docker Compose: Asegúrate de tener Docker y Docker Compose instalados en tu sistema. Puedes seguir las instrucciones de instalación en los sitios oficiales de Docker y Docker Compose.
+
+Git: Necesitarás Git para clonar el repositorio. Si no lo tienes instalado, puedes encontrar las instrucciones en Git.
+
+Jenkins: Asegúrate de tener Jenkins instalado y configurado en tu máquina o servidor para ejecutar el pipeline.
+
+Clonar el Repositorio
+
+Abre la terminal y ejecuta el siguiente comando:
+
+Copiar
 git clone https://github.com/YulianHernandez/bot-telegram-poli.git
 cd bot-telegram-poli
+Configurar el Archivo .env
 
-3. Configurar el Archivo .env
 Crea un archivo llamado .env en la raíz del proyecto y añade las siguientes variables, reemplazando los valores según corresponda:
 
+Copiar
 TOKEN=tu_token_de_bot_de_telegram
-DATABASE_HOST=db
-DATABASE_PORT=3306
-DATABASE_NAME=telegram-bot
-DATABASE_USER=myuser
-DATABASE_PASSWORD=mypassword
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=telegram-bot
+DB_USER=myuser
+DB_PASSWORD=mypassword
+Archivo Dockerfile
 
-4. Dockerfile 
-Usa una imagen base de Python
+Asegúrate de que tu Dockerfile contenga lo siguiente:
+
+Copiar
+# Usa una imagen base de Python
 FROM python:3.9
 
-Establece el directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
-Copia los archivos necesarios
+# Copia los archivos necesarios
 COPY . .
 
-Instala las dependencias
+# Instala las dependencias
 RUN pip install -r requirements.txt
 
-Comando para ejecutar el bot
-CMD ["python", "main.py"]
+# Comando para ejecutar el bot
+CMD ["python", "app/bot.py"]
+Archivo docker-compose.yml
 
-5. Archivo docker-compose.yml
-Asegurese que al momento de clonar el repositorio a la maquina local se debe verificar que el puerto 3306 no este ocupado. 
+Verifica que el archivo docker-compose.yml esté presente y correctamente configurado para levantar tanto la base de datos como la aplicación.
 
-6. Construir y Ejecutar los Contenedores
-Con todo configurado, ejecuta el siguiente comando para construir y ejecutar los contenedores:
+Ejecutar el Pipeline en Jenkins
 
-docker-compose up --build
-Esto descargará las imágenes necesarias, construirá el contenedor de la aplicación y levantará ambos contenedores (la base de datos y la aplicación).
+Abrir Jenkins: Accede a tu instancia de Jenkins desde el navegador.
 
-7. Verificar el Funcionamiento
-Base de Datos: Asegurese que el contenedor de MySQL esté funcionando correctamente. Puede verificar los registros de la base de datos con el comando:
+Crear un Nuevo Proyecto:
+
+Haz clic en "Nuevo Item".
+Asigna un nombre a tu proyecto.
+Selecciona "Pipeline" y haz clic en "OK".
+Configurar el Pipeline:
+
+En la sección "Pipeline", selecciona "Pipeline script from SCM".
+Configura el sistema de control de versiones:
+SCM: Git
+Repository URL: https://github.com/YulianHernandez/bot-telegram-poli.git
+Asegúrate de que el "Script Path" esté configurado como Jenkinsfile.
+Guardar y Ejecutar:
+
+Haz clic en "Guardar".
+En la vista del proyecto, haz clic en "Construir ahora" para ejecutar el pipeline.
+Verificar el Funcionamiento
+
+Base de Datos: Asegúrate de que el contenedor de MySQL esté funcionando correctamente. Puedes verificar los registros de la base de datos con el comando:
+
+Copiar
 docker-compose logs db
+Bot de Telegram: Verifica que el bot esté funcionando correctamente y que esté escuchando los comandos. Puedes enviar un mensaje al bot en Telegram y ver los registros de la aplicación con:
 
-Bot de Telegram: Verifique que el bot esté funcionando correctamente y que esté escuchando los comandos. Puede enviar un mensaje al bot en Telegram y ver los registros de la aplicación con:
+Copiar
 docker-compose logs app
+Interacción con el Bot
 
-8. Interacción con el Bot
 Envía el comando /registrocolaborador al bot en Telegram para iniciar el proceso de registro de colaboradores. El bot debería guiarte a través de las preguntas y almacenar la información en la base de datos.
 
-9. Detener los Contenedores
+Detener los Contenedores
+
 Para detener los contenedores, puedes usar:
 
+Copiar
 docker-compose down
+Notas Adicionales
 
-10. Notas Adicionales
-Asegurese que el token del bot de Telegram sea válido y que el bot esté habilitado.
-Revise la documentación de cada biblioteca utilizada en main.py para entender mejor su funcionamiento.
-Puede modificar el código según sus necesidades y volver a construir los contenedores si realizas cambios.
-Siguiendo estos pasos, deberia poder desarrollar y ejecutar el programa en contenedores de Docker sin problemas.
+Asegúrate de que el token del bot de Telegram sea válido y que el bot esté habilitado.
+Revisa la documentación de cada biblioteca utilizada en bot.py para entender mejor su funcionamiento.
+Puedes modificar el código según tus necesidades y volver a construir los contenedores si realizas cambios.
 
 ## Integración Continua con Jenkins
 
@@ -198,7 +228,6 @@ Este proyecto utiliza Jenkins para la integración continua. A continuación se 
    - Cambia el **"Definition"** a **"Pipeline script"**.
    - Agrega el siguiente código en el campo de script:
 
-     ```groovy
      pipeline {
          agent any
          stages {
