@@ -121,14 +121,12 @@ Clonar el Repositorio
 
 Abre la terminal y ejecuta el siguiente comando:
 
-Copiar
 git clone https://github.com/YulianHernandez/bot-telegram-poli.git
 cd bot-telegram-poli
 Configurar el Archivo .env
 
 Crea un archivo llamado .env en la raíz del proyecto y añade las siguientes variables, reemplazando los valores según corresponda:
 
-Copiar
 TOKEN=tu_token_de_bot_de_telegram
 DB_HOST=localhost
 DB_PORT=3306
@@ -139,7 +137,6 @@ Archivo Dockerfile
 
 Asegúrate de que tu Dockerfile contenga lo siguiente:
 
-Copiar
 # Usa una imagen base de Python
 FROM python:3.9
 
@@ -182,11 +179,9 @@ Verificar el Funcionamiento
 
 Base de Datos: Asegúrate de que el contenedor de MySQL esté funcionando correctamente. Puedes verificar los registros de la base de datos con el comando:
 
-Copiar
 docker-compose logs db
 Bot de Telegram: Verifica que el bot esté funcionando correctamente y que esté escuchando los comandos. Puedes enviar un mensaje al bot en Telegram y ver los registros de la aplicación con:
 
-Copiar
 docker-compose logs app
 Interacción con el Bot
 
@@ -196,7 +191,6 @@ Detener los Contenedores
 
 Para detener los contenedores, puedes usar:
 
-Copiar
 docker-compose down
 Notas Adicionales
 
@@ -257,7 +251,6 @@ Este proyecto utiliza Jenkins para la integración continua. A continuación se 
              }
          }
      }
-     ```
 
 3. **Configurar el Desencadenador de GitHub (Opcional)**:
    - Ve a **"Configuración"** en tu proyecto de Jenkins.
